@@ -6,6 +6,9 @@ const btn = document.getElementById("button");
 const INVALID_DAY = 32; 
 const INVALID_MONTH = 13; 
 const INVALID_VALUE = 0;
+const day = 1000*60*60*24;  
+const month = 1000*60*60*24*30.5; 
+const year = 1000*60*60*24*365;
 let inputDate;
 
 let inputValues = {
@@ -23,6 +26,7 @@ const inputTextValue = (e) => {
 const calculateAge = () => {
     const currentDay = new Date();
     inputDate = new Date(`${inputValues.month}/${inputValues.day}/${inputValues.year}`);
+    const age = currentDay - inputDate;
 
     const getInputDay = inputDate.getDate();
     const getInputMonth = inputDate.getMonth();
@@ -62,47 +66,17 @@ const calculateAge = () => {
         alert ("HAPPY BIRTHDAY!"); 
     }
 
-    console.log("inputDate=>", inputDate, "currentDate=>",currentDay);
-    //const age = currentDay - birthday;
+    const days = Math.floor((age / 1000) / day); 
+    const months = Math.floor((age % 31557600000) / month);
+    const years = Math.floor(age / year);
+
+    const yourAge = `${years} years, ${months} months, ${days} days`; 
+    const renderAge = document.createElement("h1"); 
+    renderAge.innerHTML = yourAge;
+    root.appendChild(renderAge);
 }
 
 dayInput.addEventListener("change", (e) => inputTextValue(e));
 monthInput.addEventListener("change", (e) => inputTextValue(e));
 yearInput.addEventListener("change", (e) => inputTextValue(e));
 btn.addEventListener("click", calculateAge);
-
-
-
-
-
-
-
-
-/**
- * to check the NaN value
- function isItNaN(x) {
-			return x !== x;
-		}
- */
-
-//alert("hello there");
-/*const title = document.createElement("h1"); 
-title.innerHTML = "this is a counter"
-root.appendChild(title);*/
-
-
-
-
-    //if the inputs of: day and month are NaN, means to need add a correct value to calculate your age *
-      /*if(!getInputDay) {
-        alert("must be a valid day"); 
-    }if(!getInputMonth) {
-        alert("must be a valid month"); 
-    }*/
-
-    /** check the error: when the input value is the first day of the month and when the is january 
-     * This occurs when the input for day and month is "1" 0r "01": 
-     *          getDate();  of "1" || "01" => // 0;
-     *          getMonth(); of "1" || "01" => // 0;
-     *    
-    **/
