@@ -1,7 +1,81 @@
 body {
-    background: coral;
-    color: white;
+    background: lightgray;
+    color: black;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+}
+
+#app {
+    width: 600px;
+    height: 400px;
+    border-radius: 10px;
+    /*border-bottom-right-radius: 50%;*/
+    background-color: whitesmoke;
+    margin: 0 auto;
+    margin-top: 200px;
+} 
+
+.input_container, 
+.age_container {
+    display: flex;
+}
+
+.age_container {
+    width: 200px;
+    flex-direction: column;
+}
+
+#year-content_text, 
+#month-content_text, 
+#day-content_text {
+    display: flex;
+    justify-content: space-around;
 }
 
 
+#label-day, 
+#label-month, 
+#label-year {
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
 
+input {
+    width: 75px;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 5px;
+    border: 2px solid lightgray;
+}
+
+button {
+    margin: 20px;
+    cursor: pointer;
+}
+
+p {
+    text-transform: uppercase;
+}
+
+
+.warning {
+    border: 2px solid red;
+}
+
+/*.warning_label {
+    color: red;
+}*/
+
+.error_state {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    text-transform:lowercase;
+}
+
+.error_text_state {
+    color:red;
+}

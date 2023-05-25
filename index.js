@@ -1,16 +1,42 @@
-const root = document.getElementById("root"); 
+/* CONSTANTS */
+const DAY = 1000*60*60*24;  
+const MONTH = 1000*60*60*24*30.5; 
+const YEAR = 1000*60*60*24*365; // or 31557600000 
+const DEFAULT_STAMP_TEXT = "- -";
+const CELEBRATE = "Happy Birthday you turned"
+const ERROR_STATE = {
+    DAY_ERROR_TEXT: "Must be a valid day",
+    MONTH_ERROR_TEXT: "Must be a valid Month",
+    YEAR_ERROR_TEXT: "Must be in the past", 
+    VALID_YEAR: "Must be a valid year",
+    VALID_DATE: "Insert a valid date",
+};
+const INVALID_INPUT = {
+    DAY: 32, 
+    MONTH: 13, 
+    VALUE: 0,
+}
+
+
+/* NODE ELEMENTS */ 
+const app = document.getElementById("app"); 
 const dayInput = document.getElementById("day"); 
 const monthInput = document.getElementById("month"); 
 const yearInput = document.getElementById("year"); 
 const btn = document.getElementById("button");
-const INVALID_DAY = 32; 
-const INVALID_MONTH = 13; 
-const INVALID_VALUE = 0;
-const day = 1000*60*60*24;  
-const month = 1000*60*60*24*30.5; 
-const year = 1000*60*60*24*365;
-let inputDate;
 
+const dayLabel = document.getElementById("label-day"); 
+const monthLabel = document.getElementById("label-month");
+const yearLabel = document.getElementById("label-year");
+
+const dayStamp = document.getElementById("days_text");
+const monthStamp = document.getElementById("months_text"); 
+const yearStamp = document.getElementById("years_text");
+
+
+
+/* VARIABLES */
+let inputDate;
 let inputValues = {
     day: "",
     month: "",
@@ -23,10 +49,19 @@ const inputTextValue = (e) => {
     inputValues[inputName] = value;
 }
 
+const showErrorMessage = (inputElem, labelElem, textError) => {
+    const errorMessage = document.createElement("span"); 
+
+    inputElem.classList.add("warning");
+    labelElem.classList.add("error_text_state");        
+    labelElem.append(errorMessage);
+    errorMessage.innerHTML = textError;  
+    errorMessage.classList.add("error_state");
+}
+
 const calculateAge = () => {
     const currentDay = new Date();
     inputDate = new Date(`${inputValues.month}/${inputValues.day}/${inputValues.year}`);
-    const age = currentDay - inputDate;
 
     const getInputDay = inputDate.getDate();
     const getInputMonth = inputDate.getMonth();
@@ -36,44 +71,68 @@ const calculateAge = () => {
     const getCurrentMonth = currentDay.getMonth();
     const getCurrentYear = currentDay.getFullYear(); 
 
-    //if the inputs are empty, alert to add a date:
-    if(!inputValues.day || !inputValues.month  || !inputValues.year){
-        alert("insert a date"); 
+    /* DATE VALIDATIONS */
+    //if all the inputs are empty
+    if(!inputValues.day || !inputValues.month || !inputValues.year){
+        showErrorMessage(dayInput, dayLabel, ERROR_STATE.VALID_DATE); 
+        showErrorMessage(monthInput, monthLabel, ""); 
+        showErrorMessage(yearInput, yearLabel, ""); 
     }
     
-    //if day is zero or greater than 31 is an invalid day
-    if(Number(inputValues.day) == INVALID_VALUE || Number(inputValues.day) >= INVALID_DAY) {
-        alert("must be a valid day"); 
+    if(inputValues.day && inputValues.month && inputValues.year ){
+        //if day is 31 on a month that has not 31 days ex: feb
+         
+
+
+        //if day is zero or greater than 31 is an invalid day
+        if(Number(inputValues.day) == INVALID_INPUT.VALUE || Number(inputValues.day) >= INVALID_INPUT.DAY) {
+            showErrorMessage(dayInput, dayLabel, ERROR_STATE.DAY_ERROR_TEXT); 
+        }
+
+        //if month is zero or greater than 12 is an invalid month
+        if(Number(inputValues.month) == INVALID_INPUT.VALUE || Number(inputValues.month) >= INVALID_INPUT.MONTH) {
+            showErrorMessage(monthInput, monthLabel, ERROR_STATE.MONTH_ERROR_TEXT);
+        }
+
+        //if year is zero is an invalid year
+        if(Number(inputValues.year) == INVALID_INPUT.VALUE) {
+            showErrorMessage(yearInput, yearLabel, ERROR_STATE.VALID_YEAR); 
+        }
+
+        //if the getInputYear is greater than the getCurrentYear is an invalid year
+        if(getInputYear >= getCurrentYear) {
+            showErrorMessage(yearInput, yearLabel, ERROR_STATE.YEAR_ERROR_TEXT);
+        }
+
+    };
+     /* END OF DATE VALIDATIONS */
+
+
+    /* CURRENT AGE CALC */
+    const age = currentDay - inputDate;
+    const days = Math.floor((age / 1000) / DAY); 
+    const months = Math.floor((age % YEAR) / MONTH);
+    const years = Math.floor(age / YEAR);
+     /* END OF CURRENT AGE CALC */
+
+    //render a default value if the year, month and day are not calculated
+    if(years && months && years) {
+        yearStamp.innerHTML = String(years); 
+        monthStamp.innerHTML = String(months); 
+        dayStamp.innerHTML = String(days); 
+    } else {
+        yearStamp.innerHTML = DEFAULT_STAMP_TEXT; 
+        monthStamp.innerHTML = DEFAULT_STAMP_TEXT; 
+        dayStamp.innerHTML = DEFAULT_STAMP_TEXT;
     }
 
-     //if month is zero or greater than 12 is an invalid month
-    if(Number(inputValues.month) == INVALID_VALUE || Number(inputValues.month) >= INVALID_MONTH) {
-        console.log(inputValues.month);
-        alert("must be a valid month"); 
-    }
+    console.log(`${years} years, ${months} months, ${days} days`);
 
-    if(inputValues.year == INVALID_VALUE) {
-        alert("must be a valid year");
-    }
 
-    //if the getInputYear is greater than the getCurrentYear is an invalid year
-    if(getInputYear >= getCurrentYear) {
-        alert("the year must be in the past");
-    }
-
-    //if the day and moth is the same of the currenteDay date and month is your birthday!
+    //if the day and month is the same of the currenteDay day and month is your birthday!
     if(getCurrentDay == getInputDay && getCurrentMonth == getInputMonth) {            
-        alert ("HAPPY BIRTHDAY!"); 
+        alert(`${CELEBRATE} ${years}!!!`); 
     }
-
-    const days = Math.floor((age / 1000) / day); 
-    const months = Math.floor((age % 31557600000) / month);
-    const years = Math.floor(age / year);
-
-    const yourAge = `${years} years, ${months} months, ${days} days`; 
-    const renderAge = document.createElement("h1"); 
-    renderAge.innerHTML = yourAge;
-    root.appendChild(renderAge);
 }
 
 dayInput.addEventListener("change", (e) => inputTextValue(e));

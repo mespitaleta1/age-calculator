@@ -8,11 +8,42 @@
     <title>Age Counter Challenge</title>
 </head>
 <body>
-    <div id="root">    
-        <input id="day" type="text" maxlength="2" placeholder="day" required>
-        <input id="month" type="text" maxlength="2" placeholder="month" required>
-        <input id="year" type="text" maxlength="4" placeholder="year" required>
-        <button id="button">calculate</button>
+    <div id="app"> 
+        <div class="app-container">
+            <div class="input_container">
+                <label id="label-day"> 
+                    day
+                    <input id="day" type="text" maxlength="2" placeholder="DD" required>
+                </label>  
+                
+                <label id="label-month"> 
+                    month
+                    <input id="month" type="text" maxlength="2" placeholder="MM" required>
+                </label>
+    
+                <label id="label-year"> 
+                    year
+                    <input id="year" type="text" maxlength="4" placeholder="YYYY" required>
+                </label>
+            </div> 
+    
+            <button id="button">calculate</button>
+    
+            <div class="age_container"> 
+                <div id="year-content_text">
+                    <span id="years_text">- -</span>
+                    <p>years</p>
+                </div>
+                <div id="month-content_text">
+                    <span id="months_text">- -</span>
+                    <p>months</p>
+                </div>
+                <div id="day-content_text">
+                    <span id="days_text">- -</span>
+                    <p>days</p>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="./index.js"></script>
 </body>
