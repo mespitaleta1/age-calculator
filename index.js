@@ -1,4 +1,3 @@
-/* CONSTANTS */
 const DAY = 1000*60*60*24;  
 const MONTH = 1000*60*60*24*30.5; 
 const YEAR = 1000*60*60*24*365; // or 31557600000 
@@ -20,7 +19,6 @@ const INVALID_INPUT = {
 };
 
 
-/* NODE ELEMENTS */ 
 const app = document.getElementById("app"); 
 const dayInput = document.getElementById("day"); 
 const monthInput = document.getElementById("month"); 
@@ -35,8 +33,11 @@ const daySpan = document.getElementById("days_text");
 const monthSpan = document.getElementById("months_text"); 
 const yearSpan = document.getElementById("years_text");
 
+yearSpan.innerHTML = DEFAULT_SPAN_TEXT; 
+monthSpan.innerHTML = DEFAULT_SPAN_TEXT; 
+daySpan.innerHTML = DEFAULT_SPAN_TEXT;
 
-/* VARIABLES */
+
 let birthDate;
 let daysInMonth;
 let inputValues = {
@@ -78,6 +79,7 @@ const showErrorState = (inputElem, labelElem, textError) => {
     labelElem.append(errorMessage);
     errorMessage.innerHTML = textError;  
     errorMessage.classList.add("error-state_text");
+    btn.setAttribute("disabled", "");
 };
 
 const removeErrorState = (key, keyInput, keyLabel) => {
@@ -94,6 +96,7 @@ const removeErrorState = (key, keyInput, keyLabel) => {
             monthLabel.classList.remove("error-state_title"); 
             yearInput.classList.remove("error-warning");
             yearLabel.classList.remove("error-state_title");
+            btn.removeAttribute('disabled');
         }); 
     }
 
@@ -110,6 +113,7 @@ const removeErrorState = (key, keyInput, keyLabel) => {
             dayLabel.classList.remove("error-state_title");
             yearInput.classList.remove("error-warning");
             yearLabel.classList.remove("error-state_title"); 
+            btn.removeAttribute('disabled');
         }); 
     }
 
@@ -125,6 +129,7 @@ const removeErrorState = (key, keyInput, keyLabel) => {
             dayLabel.classList.remove("error-state_title"); 
             monthInput.classList.remove("error-warning");
             monthLabel.classList.remove("error-state_title"); 
+            btn.removeAttribute('disabled');
         }); 
     }
 }
@@ -156,7 +161,7 @@ const calculateAge = () => {
                 removeErrorState(key,errors[key].input, errors[key].label);
             }
 
-            //Validating the day field: 
+            /*Validating the day field: */
             if(key == "day" && Number(currentValue) > daysInMonth ) {
                 //if the day fields is greater than the limit of day per month eg: 30/feb/2020
                 errors[key].text = ERROR_MESSAGE.VALID_DATE;
@@ -198,28 +203,17 @@ const calculateAge = () => {
         }
     }); 
 
-
-    
-
     /* CURRENT AGE CALC */
     const age = currentDay - birthDate;
     const days = Math.floor((age / 1000) / DAY); 
     const months = Math.floor((age % YEAR) / MONTH);
     const years = Math.floor(age / YEAR);
-     /* END OF CURRENT AGE CALC */
 
-    //render a default value if the year, month and day are not calculated or are invalid
-    if(!days && !months && !years) {
-        yearSpan.innerHTML = DEFAULT_SPAN_TEXT; 
-        monthSpan.innerHTML = DEFAULT_SPAN_TEXT; 
-        daySpan.innerHTML = DEFAULT_SPAN_TEXT;
-    } else {
+    if(days && months && years) {
         yearSpan.innerHTML = String(years); 
         monthSpan.innerHTML = String(months); 
         daySpan.innerHTML = String(days); 
     }
-
-    console.log(`${years} years, ${months} months, ${days} days`);
 }
 
 dayInput.addEventListener("change", (e) => inputTextValue(e));
