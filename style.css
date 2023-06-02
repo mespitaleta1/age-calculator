@@ -19,7 +19,7 @@ body {
 } 
 
 .app-container {
-    padding: 50px 12px 60px;
+    padding: 50px 26px 60px;
 }
 
 .attribution { font-size: 11px; text-align: center; }
@@ -57,18 +57,16 @@ body {
 }
 
 input {
-    font-size: 22px;
+    outline: none;
+    color: #141414;
     font-weight: bold;
+    caret-color: #854DFF;
+    font-size: 22px;
+    max-width: 63px;
+    padding: 10px 12px;
     letter-spacing: 1px;
-    padding: 10px 15px;
     border-radius: 10px;
     border: 1px solid #DBDBDB;
-    max-width: 62px;
-    color: #141414;
-    caret-color: #854DFF;
-    -webkit-transition: 0.5s;
-    transition: 0.5s;
-    outline: none;
 }
 
 input[type=text]:focus{
@@ -83,7 +81,7 @@ input[type=text]:focus{
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 60px;
+    margin-bottom: 45px;
 }
 
 .bar-decoration {
@@ -118,6 +116,7 @@ button:hover {
     text-transform: lowercase;
     color: #000;
     font-size: 60px;
+    margin-left: 10px;
 }
 
 .error-warning {
