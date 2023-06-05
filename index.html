@@ -4,37 +4,37 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <!-- <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">-->
+   <!-- <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,700;1,400;1,800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,700;1,400;1,800&display=swap" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="./style.css">
     <title>Age Counter Challenge</title>
 </head>
 <body>
     <div id="app"> 
-        <div class="app-container">
-            <div class="input_container">
-                <label id="label-day" class="label"> 
+        <div class="app__container">
+            <div class="fields__container">
+                <label id="label-day" class="fields_label"> 
                     day
-                    <input id="day" type="text" maxlength="2" placeholder="DD" required>
+                    <input id="day" class="fields_input" type="text" maxlength="2" placeholder="DD" required>
                 </label>  
                 
-                <label id="label-month" class="label"> 
+                <label id="label-month" class="fields_label"> 
                     month
-                    <input id="month" type="text" maxlength="2" placeholder="MM" required>
+                    <input id="month"  class="fields_input" type="text" maxlength="2" placeholder="MM" required>
                 </label>
     
-                <label id="label-year" class="label"> 
+                <label id="label-year" class="fields_label"> 
                     year
-                    <input id="year" type="text" maxlength="4" placeholder="YYYY" required>
+                    <input id="year" class="fields_input" type="text" maxlength="4" placeholder="YYYY" required>
                 </label>
             </div> 
     
-            <div class="bar-decoration"></div>
-            <div class="button-container">
+            <div class="bar__decoration"></div>
+            <div class="button__container">
                 <button id="button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="24" viewBox="0 0 46 44"> <!--width="46" height="44" -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="24" viewBox="0 0 46 44">
                         <g fill="none" stroke="#FFF" stroke-width="2">
                             <path d="M1 22.019C8.333 21.686 23 25.616 23 44M23 44V0M45 22.019C37.667 21.686 23 25.616 23 44"/>
                         </g>
@@ -42,26 +42,28 @@
                 </button>
             </div>
     
-            <div class="age_container"> 
-                <div id="year-content_text">
-                    <span id="years_text" class="age">--<i class="default-age">years</i></span>
-                   
+            <div class="age__container"> 
+                <div id="year-content_text" class="age__container_text">
+                    <span id="years_text" class="age"></span>
+                    <span class="age__item_default">years</span>
                 </div>
-                <div id="month-content_text">
-                    <span id="months_text" class="age">--<i class="default-age">months</i></span>
+
+                <div id="month-content_text" class="age__container_text">
+                    <span id="months_text" class="age"></span>
+                    <span class="age__item_default">months</span>
                 </div>
-                <div id="day-content_text">
-                    <span id="days_text" class="age">--<i class="default-age">days</i></span>
+
+                <div id="day-content_text" class="age__container_text">
+                    <span id="days_text" class="age"></span>
+                    <span class="age__item_default">days</span>
                 </div>
             </div>
         </div>
     </div>
-   <!-- 
     <div class="attribution">
         Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-        Coded by <a href="#">med_dev</a>.
+        Coded by <a href="https://github.com/mespitaleta1">med_dev</a>.
     </div>
-    -->
     <script src="./index.js"></script>
 </body>
 </html>
