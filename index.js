@@ -74,11 +74,11 @@ const inputTextValue = (e) => {
 const showErrorState = (inputElem, labelElem, textError) => {
     const errorMessage = document.createElement("span"); 
 
-    inputElem.classList.add("error-warning");
-    labelElem.classList.add("error-state_title");        
+    inputElem.classList.add("error__state_warning");
+    labelElem.classList.add("error__state_title");        
     labelElem.append(errorMessage);
     errorMessage.innerHTML = textError;  
-    errorMessage.classList.add("error-state_text");
+    errorMessage.classList.add("error__state_text");
     btn.setAttribute("disabled", "");
 };
 
@@ -86,16 +86,16 @@ const removeErrorState = (key, keyInput, keyLabel) => {
 
     if(key == "day") {
         dayInput.addEventListener("change", ()=>{
-            keyInput.classList.remove("error-warning");
-            keyLabel.classList.remove("error-state_title");
+            keyInput.classList.remove("error__state_warning");
+            keyLabel.classList.remove("error__state_title");
 
-            spanElem = document.getElementsByClassName("error-state_text");
+            spanElem = document.getElementsByClassName("error__state_text");
             spanElem[0]?.remove();
 
-            monthInput.classList.remove("error-warning");
-            monthLabel.classList.remove("error-state_title"); 
-            yearInput.classList.remove("error-warning");
-            yearLabel.classList.remove("error-state_title");
+            monthInput.classList.remove("error__state_warning");
+            monthLabel.classList.remove("error__state_title"); 
+            yearInput.classList.remove("error__state_warning");
+            yearLabel.classList.remove("error__state_title");
             btn.removeAttribute('disabled');
         }); 
     }
@@ -103,32 +103,32 @@ const removeErrorState = (key, keyInput, keyLabel) => {
 
     if(key == "month") {
         monthInput.addEventListener("change", ()=>{
-            keyInput.classList.remove("error-warning");
-            keyLabel.classList.remove("error-state_title");
+            keyInput.classList.remove("error__state_warning");
+            keyLabel.classList.remove("error__state_title");
 
-            spanElem = document.getElementsByClassName("error-state_text");
+            spanElem = document.getElementsByClassName("error__state_text");
             spanElem[0]?.remove();
 
-            dayInput.classList.remove("error-warning");
-            dayLabel.classList.remove("error-state_title");
-            yearInput.classList.remove("error-warning");
-            yearLabel.classList.remove("error-state_title"); 
+            dayInput.classList.remove("error__state_warning");
+            dayLabel.classList.remove("error__state_title");
+            yearInput.classList.remove("error__state_warning");
+            yearLabel.classList.remove("error__state_title"); 
             btn.removeAttribute('disabled');
         }); 
     }
 
     if(key == "year") {
         yearInput.addEventListener("change", ()=>{
-            keyInput.classList.remove("error-warning");
-            keyLabel.classList.remove("error-state_title"); 
+            keyInput.classList.remove("error__state_warning");
+            keyLabel.classList.remove("error__state_title"); 
             
-            spanError = document.getElementsByClassName("error-state_text");
+            spanError = document.getElementsByClassName("error__state_text");
             spanElem[0]?.remove();
 
-            dayInput.classList.remove("error-warning");
-            dayLabel.classList.remove("error-state_title"); 
-            monthInput.classList.remove("error-warning");
-            monthLabel.classList.remove("error-state_title"); 
+            dayInput.classList.remove("error__state_warning");
+            dayLabel.classList.remove("error__state_title"); 
+            monthInput.classList.remove("error__state_warning");
+            monthLabel.classList.remove("error__state_title"); 
             btn.removeAttribute('disabled');
         }); 
     }

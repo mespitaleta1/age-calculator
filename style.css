@@ -1,6 +1,6 @@
 body {
     background: #DBDBDB;
-    color: black;
+    color: #000;
     margin: 0;
     padding: 0;
     overflow: auto;
@@ -11,43 +11,38 @@ body {
     margin: 150px 15px;
     min-width: 350px;
     max-width: 800px;
-    background-color: white;
+    background-color: #fff;
     border-bottom-right-radius: 100px;
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
     border-bottom-left-radius: 25px;
 } 
 
-.app-container {
+.app__container {
     padding: 50px 26px 60px;
 }
 
-.attribution { font-size: 11px; text-align: center; }
-.attribution a { color: hsl(228, 45%, 44%); }
-
-.input_container, 
-.age_container {
+.fields__container, 
+.age__container {
     display: flex;
 }
 
-.input_container {
+.fields__container {
     justify-content: space-between;
     padding-bottom: 60px;
 }
 
-.age_container {
+.age__container {
     width: 100%;
     flex-direction: column;
     align-items: flex-start;
 }
 
-#year-content_text, 
-#month-content_text, 
-#day-content_text {
+.age__container_text {
     height: 64px;
 }
 
-.label {
+.fields_label {
     text-transform: uppercase;
     color: #716F6F;
     display: flex;
@@ -56,7 +51,7 @@ body {
     letter-spacing: 3px;
 }
 
-.input_fields {
+.fields_input {
     outline: none;
     color: #141414;
     font-weight: bold;
@@ -70,7 +65,7 @@ body {
     cursor: pointer;
 }
 
-.input_fields[type=text]:focus{
+.fields_input[type=text]:focus{
     border: 1px solid #854DFF;
 }
 
@@ -78,14 +73,14 @@ body {
     color: #DBDBDB;
 }
 
-.button-container {
+.button__container {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 45px;
 }
 
-.bar-decoration {
+.bar__decoration {
     border-bottom: 2px solid #DBDBDB;
     opacity: 0.5;
 }
@@ -109,34 +104,36 @@ button:hover {
 
 .age {
     color: #854DFF;
+    font-style: italic;
     font-weight: bold;
     font-size: 50px;
 }
 
-.default-age {
-    text-transform: lowercase;
+.age__item_default{
     color: #000;
-    font-size: 46px;
     margin-left: 10px;
+    font-size: 46px;
     font-weight: bold;
+    font-style: italic;
+    text-transform: lowercase;
 }
 
-.error-warning {
+.error__state_warning {
     border: 1px solid  #FF5757;
 }
 
-.error-state_text {
+.error__state_text {
     color:  #FF5757;
     margin: 5px 7px;
     font-size: 8px;
+    font-style: italic;
     letter-spacing: 0px;
     text-transform:lowercase;
 }
 
-.error-state_title {
+.error__state_title {
     color: #FF5757;
 }
-
 
 
 /*Desktop*/
@@ -146,26 +143,26 @@ button:hover {
         margin: 200px auto;
     }
 
-    .app-container {
+    .app__container {
         padding: 30px 60px 60px 56px;
     }
 
-    .input_container {
+    .fields__container {
         width: 523px;
         justify-content: flex-start;
     }
 
-    .input_fields {
+    .fields_input {
        padding: 20px;
        margin-right: 34px;
        max-width: 100px;
     }
 
-    .bar-decoration {
+    .bar__decoration {
         width: 600px;
     }
 
-    .button-container {
+    .button__container {
         justify-content: flex-end;
         margin-bottom: 30px;
     }
@@ -180,9 +177,7 @@ button:hover {
         height: 44px;
     }
 
-    #year-content_text, 
-    #month-content_text, 
-    #day-content_text {
+    .age__container_text {
          height: 90px;
     }
 
@@ -190,13 +185,21 @@ button:hover {
         font-size: 75px;
     }
 
-    .default-age {
+    .age__item_default {
         font-size: 80px;
         margin-left: 10px;
-        font-weight: bold;
     }
 
-    .error-state_text {
+    .error__state_text {
         font-size: 12px;
     }
+}
+
+.attribution { 
+    font-size: 11px; 
+    text-align: center; 
+}
+
+.attribution a { 
+    color: #3E52A3; 
 }
