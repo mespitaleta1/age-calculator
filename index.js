@@ -38,8 +38,14 @@ monthSpan.innerHTML = DEFAULT_SPAN_TEXT;
 daySpan.innerHTML = DEFAULT_SPAN_TEXT;
 
 
+let days; 
+let months; 
+let years;
 let birthDate;
 let daysInMonth;
+let dayCounter = INVALID_INPUT.VALUE;
+let yearCounter = INVALID_INPUT.VALUE;
+let monthCounter = INVALID_INPUT.VALUE;
 let inputValues = {
     day: "",
     month: "",
@@ -142,6 +148,7 @@ const calculateAge = () => {
     
     const getCurrentYear = currentDay.getFullYear();
     const getInputYear = birthDate.getFullYear();
+    const age = currentDay - birthDate;
     daysInMonth = getDaysInMonth(getInputYear, inputValues.month); 
 
     Object.keys(inputValues).map((key) => {
@@ -153,7 +160,7 @@ const calculateAge = () => {
             removeErrorState(key,errors[key].input, errors[key].label);
         } else {
             //if one or all the fields are zero
-            if(Number(currentValue) == INVALID_INPUT.VALUE) {
+            if(currentValue == INVALID_INPUT.VALUE) {
                 errors.day.text = ERROR_MESSAGE.DAY;
                 errors.month.text = ERROR_MESSAGE.MONTH;
                 errors.year.text = ERROR_MESSAGE.VALID_YEAR;
@@ -162,7 +169,7 @@ const calculateAge = () => {
             }
 
             /*Validating the day field: */
-            if(key == "day" && Number(currentValue) > daysInMonth ) {
+            if(key == "day" && currentValue > daysInMonth ) {
                 //if the day fields is greater than the limit of day per month eg: 30/feb/2020
                 errors[key].text = ERROR_MESSAGE.VALID_DATE;
                 showErrorState(errors[key].input, errors[key].label, errors[key].text); 
@@ -170,8 +177,7 @@ const calculateAge = () => {
                 showErrorState(yearInput, yearLabel, "");
 
                 removeErrorState(key,errors[key].input, errors[key].label);
-
-            } else if(key == "day" && Number(currentValue) >= INVALID_INPUT.DAY) {
+            } else if(key == "day" && currentValue >= INVALID_INPUT.DAY) {
                 //if the day fields is greater than 31
                 errors[key].text = ERROR_MESSAGE.DAY;
                 showErrorState(errors[key].input, errors[key].label, errors[key].text); 
@@ -182,7 +188,7 @@ const calculateAge = () => {
             }
 
             //if the month field is greater or equal to 13 
-            if(key == "month" && Number(currentValue) >= INVALID_INPUT.MONTH) {
+            if(key == "month" && currentValue >= INVALID_INPUT.MONTH) {
                 errors[key].text = ERROR_MESSAGE.MONTH;
                 showErrorState(errors[key].input, errors[key].label, errors[key].text);
                 showErrorState(dayInput, dayLabel, "");
@@ -192,7 +198,7 @@ const calculateAge = () => {
             }
 
             //if the year field is greater or equal to the actual year
-            if(key == "year" && Number(currentValue) >= getCurrentYear) {
+            if(key == "year" && currentValue >= getCurrentYear) {
                 errors[key].text = ERROR_MESSAGE.YEAR;
                 showErrorState(errors[key].input, errors[key].label, errors[key].text);
                 showErrorState(dayInput, dayLabel, "");
@@ -204,16 +210,59 @@ const calculateAge = () => {
     }); 
 
     /* CURRENT AGE CALC */
-    const age = currentDay - birthDate;
-    const days = Math.floor((age / 1000) / DAY); 
-    const months = Math.floor((age % YEAR) / MONTH);
-    const years = Math.floor(age / YEAR);
+    console.log(age);
+   if(age > INVALID_INPUT.VALUE) {
+    const incrementYearAnimation = () => {
+        yearCounter++;
+        yearSpan.innerHTML = yearCounter; 
+        years = Math.floor(age / YEAR);
+        if(yearCounter == years) {
+            clearInterval(animateYear);
+        }
+    }
+    
+    const animateYear = setInterval(incrementYearAnimation, 80);
 
-    if(days && months && years) {
-        yearSpan.innerHTML = String(years); 
+    const incrementMonthAnimation = () => {
+        monthCounter++;
+        monthSpan.innerHTML = monthCounter; 
+        months = Math.floor((age % YEAR) / MONTH);
+        if(monthCounter == months) {
+            clearInterval(animateMonth);
+        }
+    }
+    
+    const animateMonth = setInterval(incrementMonthAnimation, 80);
+
+    const incrementDayAnimation = () => {
+        dayCounter++;
+        daySpan.innerHTML = dayCounter;
+        days = Math.floor((age / 1000) / DAY); 
+        if(dayCounter == days) {
+            clearInterval(animateDay);
+        }
+    }
+    
+    const animateDay = setInterval(incrementDayAnimation, 80);
+   }
+
+
+    
+    
+
+
+
+
+   /* const days = Math.floor((age / 1000) / DAY); 
+    const months = Math.floor((age % YEAR) / MONTH);
+    const years = Math.floor(age / YEAR);*/
+
+    /*if(days && months && years) {
+        //yearSpan.innerHTML = String(years); 
+        yearSpan.innerHTML = animate;
         monthSpan.innerHTML = String(months); 
         daySpan.innerHTML = String(days); 
-    }
+    }*/
 }
 
 dayInput.addEventListener("change", (e) => inputTextValue(e));
