@@ -32,19 +32,26 @@ const yearLabel = document.getElementById("label-year");
 const daySpan = document.getElementById("days_text");
 const monthSpan = document.getElementById("months_text"); 
 const yearSpan = document.getElementById("years_text");
+const initialValues = {
+    day: "",
+    month: "",
+    year: "",
+}
 
 yearSpan.innerHTML = DEFAULT_SPAN_TEXT; 
 monthSpan.innerHTML = DEFAULT_SPAN_TEXT; 
 daySpan.innerHTML = DEFAULT_SPAN_TEXT;
 
 
+let days; 
+let months; 
+let years;
 let birthDate;
 let daysInMonth;
-let inputValues = {
-    day: "",
-    month: "",
-    year: "",
-};
+let dayCounter = INVALID_INPUT.VALUE;
+let yearCounter = INVALID_INPUT.VALUE;
+let monthCounter = INVALID_INPUT.VALUE;
+let inputValues = {...initialValues};
 
 let errors = {
     day: {
@@ -69,6 +76,7 @@ const inputTextValue = (e) => {
     const value = e.target.value;
     const inputName = e.target.id; 
     inputValues[inputName] = value;
+    btn.removeAttribute('disabled');
 };
 
 const showErrorState = (inputElem, labelElem, textError) => {
@@ -100,13 +108,17 @@ const removeErrorState = (key, keyInput, keyLabel) => {
         }); 
     }
 
-
     if(key == "month") {
         monthInput.addEventListener("change", ()=>{
             keyInput.classList.remove("error__state_warning");
             keyLabel.classList.remove("error__state_title");
 
             spanElem = document.getElementsByClassName("error__state_text");
+
+           if(spanElem[1].innerHTML == ERROR_MESSAGE.MONTH) {
+                spanElem[1].remove();
+            };
+
             spanElem[0]?.remove();
 
             dayInput.classList.remove("error__state_warning");
@@ -122,7 +134,7 @@ const removeErrorState = (key, keyInput, keyLabel) => {
             keyInput.classList.remove("error__state_warning");
             keyLabel.classList.remove("error__state_title"); 
             
-            spanError = document.getElementsByClassName("error__state_text");
+            spanElem = document.getElementsByClassName("error__state_text");
             spanElem[0]?.remove();
 
             dayInput.classList.remove("error__state_warning");
@@ -144,16 +156,19 @@ const calculateAge = () => {
     const getInputYear = birthDate.getFullYear();
     daysInMonth = getDaysInMonth(getInputYear, inputValues.month); 
 
+
     Object.keys(inputValues).map((key) => {
         const currentValue = inputValues[key];
+
         //if all the fields are empty
         if(!currentValue) {
             errors[key].text = ERROR_MESSAGE.EMPTY_FIELDS;
             showErrorState(errors[key].input, errors[key].label, errors[key].text);
             removeErrorState(key,errors[key].input, errors[key].label);
         } else {
+
             //if one or all the fields are zero
-            if(Number(currentValue) == INVALID_INPUT.VALUE) {
+            if(currentValue == INVALID_INPUT.VALUE) {
                 errors.day.text = ERROR_MESSAGE.DAY;
                 errors.month.text = ERROR_MESSAGE.MONTH;
                 errors.year.text = ERROR_MESSAGE.VALID_YEAR;
@@ -162,16 +177,20 @@ const calculateAge = () => {
             }
 
             /*Validating the day field: */
-            if(key == "day" && Number(currentValue) > daysInMonth ) {
+            if(key == "day" && currentValue > daysInMonth ) {
                 //if the day fields is greater than the limit of day per month eg: 30/feb/2020
                 errors[key].text = ERROR_MESSAGE.VALID_DATE;
                 showErrorState(errors[key].input, errors[key].label, errors[key].text); 
                 showErrorState(monthInput, monthLabel, "");
                 showErrorState(yearInput, yearLabel, "");
+                
+                if(errors[key].text == ERROR_MESSAGE.VALID_DATE) {
+                    birthDate = new Date(`${inputValues.month}/0/${inputValues.year}`);
+                }
 
                 removeErrorState(key,errors[key].input, errors[key].label);
-
-            } else if(key == "day" && Number(currentValue) >= INVALID_INPUT.DAY) {
+               
+            } else if(key == "day" && currentValue >= INVALID_INPUT.DAY) {
                 //if the day fields is greater than 31
                 errors[key].text = ERROR_MESSAGE.DAY;
                 showErrorState(errors[key].input, errors[key].label, errors[key].text); 
@@ -182,38 +201,82 @@ const calculateAge = () => {
             }
 
             //if the month field is greater or equal to 13 
-            if(key == "month" && Number(currentValue) >= INVALID_INPUT.MONTH) {
+            if(key == "month" && currentValue >= INVALID_INPUT.MONTH) {
                 errors[key].text = ERROR_MESSAGE.MONTH;
                 showErrorState(errors[key].input, errors[key].label, errors[key].text);
                 showErrorState(dayInput, dayLabel, "");
                 showErrorState(yearInput, yearLabel, "");
 
-                removeErrorState(key,errors[key].input, errors[key].label);
+                removeErrorState(key, errors[key].input, errors[key].label);
             }
 
             //if the year field is greater or equal to the actual year
-            if(key == "year" && Number(currentValue) >= getCurrentYear) {
+            if(key == "year" && currentValue >= getCurrentYear) {
                 errors[key].text = ERROR_MESSAGE.YEAR;
                 showErrorState(errors[key].input, errors[key].label, errors[key].text);
                 showErrorState(dayInput, dayLabel, "");
                 showErrorState(monthInput, monthLabel, "");
+                if(errors[key].text == ERROR_MESSAGE.YEAR) {
+                   // inputValues[key] = '0';
+                    birthDate = new Date("0/0/0");
+                    console.log("hey is a wrong year", birthDate, inputValues);
+                }
 
                 removeErrorState(key,errors[key].input, errors[key].label);
             }
         }
-    }); 
+    });  
 
-    /* CURRENT AGE CALC */
-    const age = currentDay - birthDate;
-    const days = Math.floor((age / 1000) / DAY); 
-    const months = Math.floor((age % YEAR) / MONTH);
-    const years = Math.floor(age / YEAR);
+    let age = currentDay - birthDate;
+    console.log(age, birthDate); 
+    const hasBDateErrors =  errors.day.text || errors.month.text || errors.year.text
+    if(age && !hasBDateErrors ) {
 
-    if(days && months && years) {
-        yearSpan.innerHTML = String(years); 
-        monthSpan.innerHTML = String(months); 
-        daySpan.innerHTML = String(days); 
+
+        daySpan.innerHTML = Math.floor((age / 1000) / DAY); 
+        monthSpan.innerHTML = Math.floor((age % YEAR) / MONTH); 
+        yearSpan.innerHTML = Math.floor(age / YEAR); 
+
+
+/*        
+Setting animation:
+        const incrementDayAnimation = () => {
+            dayCounter++;
+            daySpan.innerHTML = dayCounter; 
+            days = Math.floor((age / 1000) / DAY);
+            if(dayCounter == days) {
+                clearInterval(animateDay);
+            }
+        };
+
+        
+        const incrementMonthAnimation = () => {
+            monthCounter++;
+            monthSpan.innerHTML = monthCounter; 
+            months = Math.floor((age % YEAR) / MONTH);
+            if(monthCounter == months) {
+                clearInterval(animateMonth);
+            } 
+        };
+
+       
+        const incrementYearAnimation = () => {
+            yearCounter++;
+            yearSpan.innerHTML = yearCounter; 
+            years = Math.floor(age / YEAR);
+            if(yearCounter == years) {
+                clearInterval(animateYear);
+            }     
+       }
+    
+        const animateDay = setInterval(incrementDayAnimation, 40);
+        const animateMonth = setInterval(incrementMonthAnimation, 40);
+        const animateYear = setInterval(incrementYearAnimation, 40); 
+        */
+        btn.setAttribute("disabled", "");
     }
+
+    //inputValues = {...initialValues}
 }
 
 dayInput.addEventListener("change", (e) => inputTextValue(e));
